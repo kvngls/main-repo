@@ -1,0 +1,31 @@
+name: main workflow
+on: push
+
+jobs:
+  Checkout-Sub-Repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: kvngls/sub-repo
+
+      - name: Checkout Illumio Repo
+        uses: actions/checkout@v4
+        with:
+          repository: kvngls/sub-repo
+          sparse-checkout: tasks
+          path: roles/illumio
+
+      - name: Checkout Palo Alto Repo
+        uses: actions/checkout@v4
+        with:
+          repository: kvngls/sub-repo-2
+          sparse-checkout: tasks
+          path: roles/palo-alto
+
+      - name: Print file content
+        run: |
+          cd roles/illumio/tasks && ls -la
+          cd ../../ && cd palo-alto/tasks && ls -la
+          
